@@ -1,12 +1,12 @@
 export default function Navbar() {
     return <nav className="nav">
-        <a href="/" className="title">SFU Events</a>
+        <a href="/" className="title">SFU EVENTS</a>
         <ul>
             <li>
-                <a href="/about-us">About Us</a>
+                <a className="navbtn" href="/about-us">About Us</a>
             </li>
             <li>
-                <a href="/login">Login</a>
+                <a className="navbtn" href="/login">Log In</a>
             </li>
         </ul>
     </nav>
