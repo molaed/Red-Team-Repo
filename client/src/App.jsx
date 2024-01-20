@@ -1,13 +1,10 @@
 import { useState } from 'react'
-import './App.css'
+import './styles.css'
+import Navbar from './Navbar.jsx'
 
-function App() {
+export default function App() {
 
   return (
-    <>
-      
-    </>
+    <Navbar />
   )
 }
-
-export default App
