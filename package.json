@@ -1,6 +1,6 @@
 
 {
-  "name": "event-management-app",
+  "name": "Red-Team-Repo",
   "version": "1.0.0",
   "scripts": {
     "install:client": "cd client && npm install",
