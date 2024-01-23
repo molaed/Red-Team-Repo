@@ -1,0 +1,18 @@
+
+{
+  "name": "event-management-app",
+  "version": "1.0.0",
+  "scripts": {
+    "install:client": "cd client && npm install",
+    "install:server": "cd server && npm install",
+    "install": "npm-run-all --parallel install:*",
+    "start:client": "cd client && npm run dev",
+    "start:server": "cd server && npm start",
+    "start": "concurrently \"npm run start:client\" \"npm run start:server\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "npm-run-all": "^4.1.5"
+  }
+}
+
