@@ -19,16 +19,18 @@ npm install
 npm start
 ```
 
-### Managing Dependencies
+### Managing Dependencies and Run Indendently
 ```bash
 # Client
 cd client 
 npm install
+npm run dev
 ```
 ```bash
-# Server
+# Server with 'nodemon'
 cd server 
 npm install
+npm run dev 
 ```
 
 
