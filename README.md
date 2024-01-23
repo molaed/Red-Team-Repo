@@ -1,5 +1,11 @@
 # SFU Events
-## Run on Local
-* Clone and `cd client` into folder
-* Open terminal and run `npm install`
-* Then run `npm run dev`
+
+## Getting Started
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+
+## Installation and Set Up
+```bash
+# Root Directory
+npm run install
+npm start
+
