@@ -6,6 +6,9 @@ export default function Navbar() {
                 <a className="navbtn" href="/about-us">About Us</a>
             </li>
             <li>
+                <a className="navbtn" href="/clubs">Clubs List</a>
+            </li>   
+            <li>
                 <a className="navbtn" href="/login">Log In</a>
             </li>
         </ul>

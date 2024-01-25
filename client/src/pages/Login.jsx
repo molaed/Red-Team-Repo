@@ -1,5 +1,8 @@
 import React,  {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
+import { auth } from '../firebaseConfig'; 
+import { signInWithEmailAndPassword } from 'firebase/auth';
+
 
 import {
   Box,
@@ -23,29 +26,38 @@ function LoginPage() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-          const response = await fetch('/api/login', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, password, role }),
-          });
-          const data = await response.json();
-          if (data.success && role == 'admin') {
-            console.log('Login Admin successful');
-            navigate('/dashboard');
-          } 
-          else if (data.success && role == 'student') {
-            console.log('Login Student successful');
-            navigate('/dashboard');
-          }
-          else {
-            console.error(data.message);
-          }
-        } catch (error) {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            console.log('Login successful', userCredential.user);
+        
+            // Send user ID token to your backend for verification and role check
+            const idToken = await userCredential.user.getIdToken();
+            console.log('idToken', idToken);
+
+            const response = await fetch('http://localhost:8080/api/verifyToken ', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ idToken, role }),
+            });
+            console.log(idToken, role)
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            if (data.success) {
+                console.log('Login successful', data.user);
+                navigate('/dashboard');
+              } else {
+                console.error(data.message);
+              }
+        } 
+        catch (error) 
+        {
           console.error('Login request failed:', error);
         }
-      };
+    };
 
   return (
     <Flex
@@ -62,23 +74,19 @@ function LoginPage() {
                 <Heading as="h1" size="xl" textAlign="center" mb={5}>
                     Log In To SFU Events
                 </Heading>
-
                 <Heading as="h2" size="md" >
                     Email
                 </Heading>
-                <Input placeholder="Email" type="email" value={email}
-        onChange={(e) => setEmail(e.target.value)} />
+                <Input placeholder="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                 <Heading as="h2" size="md" >
                     Password
                 </Heading>
-                <Input placeholder="Password" type="password" value={password}
-        onChange={(e) => setPassword(e.target.value)}/>
+                <Input placeholder="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
 
                 <Heading as="h2" size="md" mt={10}>
                     Authorization
                 </Heading>
-                <Select placeholder="Log in As" value={role}
-      onChange={(e) => setRole(e.target.value)}>
+                <Select placeholder="Log in As" value={role} onChange={(e) => setRole(e.target.value)}>
                 <option value="admin">Admin</option>
                 <option value="student">Student</option>
                 </Select>
