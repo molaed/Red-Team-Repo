@@ -6,4 +6,7 @@ admin.initializeApp({
 });
 
 const db = admin.firestore();
+
+
+// Export both Firestore and Authentication
 module.exports = db;

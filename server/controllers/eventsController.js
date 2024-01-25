@@ -1,4 +1,4 @@
-const db = require('../firebaseConfig');
+const  db  = require('../firebaseConfig');
 
 exports.getAllEvents = async (req, res) => {
   try {
