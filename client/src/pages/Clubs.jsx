@@ -3,15 +3,12 @@ import { Box, VStack, Image, Text, Link, Flex, Spacer, Icon } from '@chakra-ui/r
 import ClubCard from '../components/ClubsCard';
 
 const clubsData = [
-    // Replace with your actual club data
     {
       name: "Surge",
       description: "I just want to say...I just want to say...",
       email: "temared.surge@gmail.com",
       logo: "https://placekitten.com/300/200",
-      // Add social media links as required
     },
-    // ... more clubs
   ];
 
 export default function Clubs () {

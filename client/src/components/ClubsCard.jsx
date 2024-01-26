@@ -18,20 +18,18 @@ export default function ClubCard ({ club }) {
                 transition: "all 0.3s ease-in-out"
             }}
         >
-          {/* Image */}
           <Image
             src={club.logo || 'https://placekitten.com/300/200'}
             alt="Logo"
-            flex="0 0 30%" // Assigns 30% of the space to the image
+            flex="0 0 30%" 
             objectFit="cover"
           />
-          {/* Text Content */}
-          <Box flex="1" p={4} marginLeft={20}> {/* flex="1" takes the remaining space */}
+
+          <Box flex="1" p={4} marginLeft={20}> 
             <Text fontSize="xl" fontWeight="bold">{club.name}</Text>
             <Text>{club.description}</Text>
             <Text>Email: <Link href={`mailto:${club.email}`} color="blue.500">{club.email}</Link></Text>
-            {/* Social media links */}
-            {/* ... */}
+
           </Box>
         </Flex>
       );
