@@ -12,9 +12,12 @@ import {
   Grid,
   Heading,
   Text,
+  Button,
+  VStack,
 } from '@chakra-ui/react';
 import { SearchIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import EventCard from '../components/EventCard';
+import { Link } from 'react-router-dom';
 
 export default function Home() {
   return (
@@ -75,13 +78,13 @@ export default function Home() {
         </Heading>
 
         <Grid templateColumns='repeat(3, 1fr)' gap={6} paddingTop={4}>
-          <EventCard
+          <EventCard eventId="1"
             eventName='Name of Event'
             date='Jan 23'
             location='SFU Burnaby'
             participants='34/50'
           />
-          <EventCard
+          <EventCard 
             eventName='Name of Event'
             date='Jan 23'
             location='SFU Burnaby'
@@ -100,6 +103,10 @@ export default function Home() {
             participants='34/50'
           />
         </Grid>
+        <VStack margin={5}>
+          <Text style={{ fontSize: '1.2rem' }}>Showing 4 of 12 events</Text>
+          <Button>Show more</Button>
+        </VStack>
       </Stack>
     </>
   );
