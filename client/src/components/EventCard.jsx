@@ -1,7 +1,8 @@
 import { Box, Image, Heading, Text } from '@chakra-ui/react';
-
-export default function EventCard({ eventName, date, location, participants }) {
+import { Link } from 'react-router-dom';
+export default function EventCard({ eventId, eventName, date, location, participants }) {
   return (
+    <Link to={`/EventDetails`}>
     <Box
       maxW='100%'
       maxH='100%'
@@ -32,5 +33,6 @@ export default function EventCard({ eventName, date, location, participants }) {
         </Text>
       </Box>
     </Box>
+    </Link>
   );
 }

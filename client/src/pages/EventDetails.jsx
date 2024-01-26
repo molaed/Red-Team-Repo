@@ -1,4 +1,4 @@
-import { Image } from '@chakra-ui/react'
+import { Image, Box } from '@chakra-ui/react'
 
 export default function EventDetails(props) {
     return (
