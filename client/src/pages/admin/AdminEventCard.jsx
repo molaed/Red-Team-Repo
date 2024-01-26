@@ -7,7 +7,7 @@ export default function AdminEventCard(props) {
             direction={{ base: 'column', sm: 'row' }}
             overflow='hidden'
             variant='outline'
-            h={300}
+            height='200px'
         >
             <CardBody>
                 <Box boxSize='sm'>
@@ -21,6 +21,7 @@ export default function AdminEventCard(props) {
                         <VStack
                             spacing={1}
                             align='stretch'
+                            whiteSpace='nowrap'
                         >
                             <Heading size='lg'>{props.title}</Heading>
                             <Text as='b' color="slateblue">{props.date}, {props.time}</Text>
