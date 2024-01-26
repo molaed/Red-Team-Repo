@@ -3,10 +3,9 @@ import AdminEventCard from "./AdminEventCard"
 
 export default function AdminCurrentEvents() {
     return (
-        <Flex>
-            <Stack direction={['column', 'row']} spacing='24px'>
-                <h1>hi</h1>
-            </Stack>
-        </Flex>
+        <Stack spacing='3rem'>
+            <AdminEventCard />
+            <AdminEventCard />
+        </Stack>
     )
 }
