@@ -1,7 +1,12 @@
-import { Heading } from "@chakra-ui/react"
+import { Heading, Stack, Flex } from "@chakra-ui/react"
+import AdminEventCard from "./AdminEventCard"
 
 export default function AdminCurrentEvents() {
-    <Heading as="h3" size="l" mb={5}>
-        Card Stack
-    </Heading>
+    return (
+        <Flex>
+            <Stack direction={['column', 'row']} spacing='24px'>
+                <h1>hi</h1>
+            </Stack>
+        </Flex>
+    )
 }
