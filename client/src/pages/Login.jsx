@@ -3,7 +3,6 @@ import {useNavigate} from 'react-router-dom';
 import { auth } from '../firebaseConfig'; 
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
-
 import {
   Box,
   Heading,

@@ -1,4 +1,5 @@
 import { Box, Image, Heading, Text } from '@chakra-ui/react';
+
 export default function EventCard({ eventName, date, location, participants }) {
   return (
     <Box
@@ -8,10 +9,15 @@ export default function EventCard({ eventName, date, location, participants }) {
       borderRadius='lg'
       overflow='hidden'
       boxShadow='lg'
+      _hover={{
+        bg: "gray.100", 
+        transform: "scale(1.05)", 
+        transition: "all 0.3s ease-in-out"
+      }}
     >
       <Image src='https://placekitten.com/300/200' alt='Card Image' w='full' />
 
-      <Box p='4'>
+      <Box p='4' >
         <Heading as='h2' size='md' mb='2'>
           {eventName}
         </Heading>
