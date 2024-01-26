@@ -26,19 +26,17 @@ export default function Admin() {
                 mx='auto'
             >
                 <Button colorScheme='red' size='lg' mb={10}>Host Event</Button>
+                <Stack spacing={150}>
+                    <Box>
+                        <Heading as="h3" size="xl" mb={5}>Current Events</Heading>
+                        <AdminCurrentEvents />
+                    </Box>
 
-                <Heading as="h3" size="xl" mb={5}>
-                    Current Events
-                </Heading>
-                {/* <AdminCurrentEvents /> */}
-                <AdminEventCard />
-
-                <Spacer />
-
-                <Heading as="h3" size="xl" mb={5}>
-                    Past Events
-                </Heading>
-                <AdminPastEvents />
+                    <Box>
+                        <Heading as="h3" size="xl" mb={5}>Past Events</Heading>
+                        <AdminPastEvents />
+                    </Box>
+                </Stack>
             </Box>
         </Flex>
     )
