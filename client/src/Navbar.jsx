@@ -22,7 +22,7 @@ export default function Navbar() {
         </Text>
       <Flex as="ul" padding="2.5rem" margin="0" gap="1rem">
         <li>
-          <Button colorScheme='CC0633' as="a" href="/about-us" className="navbtn" fontWeight="600"
+          <Button colorScheme='#CC0633' as="a" href="/about-us" className="navbtn" fontWeight="600"
           _hover={{
             bg: "red.500", 
             transform: "scale(1.05)", 
@@ -32,7 +32,7 @@ export default function Navbar() {
           </Button>
         </li>
         <li>
-          <Button colorScheme='CC0633' as="a" href="/clubs" className="navbtn" fontWeight="600" _hover={{
+          <Button colorScheme='#CC0633' as="a" href="/clubs" className="navbtn" fontWeight="600" _hover={{
             bg: "red.500", 
             transform: "scale(1.05)", 
             transition: "all 0.3s ease-in-out"
@@ -41,7 +41,7 @@ export default function Navbar() {
           </Button>
         </li>
         <li>
-          <Button colorScheme='black' as="a" href="/login" className="navbtn" fontWeight="600" _hover={{
+          <Button colorScheme='#800000' as="a" href="/login" className="navbtn" fontWeight="600" _hover={{
             bg: "red.500", 
             transform: "scale(1.05)", 
             transition: "all 0.3s ease-in-out"
