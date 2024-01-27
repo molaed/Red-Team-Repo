@@ -18,7 +18,7 @@ export default function Navbar() {
         zIndex="999"
     >
         <Text as="a" href="/" className="title" fontSize="3.125rem" fontWeight="450" textDecoration="none">
-            SFU EVENTS
+            SFU KINECTUS
         </Text>
       <Flex as="ul" padding="2.5rem" margin="0" gap="1rem">
         <li>

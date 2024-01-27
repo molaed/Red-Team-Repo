@@ -8,6 +8,12 @@ export default function AdminEventCard(props) {
             overflow='hidden'
             variant='outline'
             height='200px'
+            boxShadow='lg'
+            _hover={{
+                bg: "gray.100", 
+                transform: "scale(1.05)", 
+                transition: "all 0.3s ease-in-out"
+            }}
         >
             <CardBody>
                 <Box boxSize='sm'>

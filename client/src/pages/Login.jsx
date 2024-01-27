@@ -36,7 +36,7 @@ function LoginPage() {
       const idToken = await userCredential.user.getIdToken();
       console.log('idToken', idToken);
 
-      const response = await fetch('http://localhost:8080/api/verifyToken ', {
+      const response = await fetch('http://localhost:8080/api/verifyToken', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ function LoginPage() {
       const data = await response.json();
       if (data.success) {
         console.log('Login successful', data.user);
-        navigate('/dashboard');
+        navigate('/admin');
       } else {
         console.error(data.message);
       }
@@ -65,7 +65,7 @@ function LoginPage() {
       <Box
         bg={useColorModeValue('brand.100', 'brand.700')}
         p={8}
-        w={['50%', '30%']} // Responsive width
+        w={['50%', '30%']}
         mx='auto'
       >
         <form onSubmit={handleSubmit}>

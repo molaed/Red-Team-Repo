@@ -44,34 +44,41 @@ exports.loginUser = async (req, res) => {
   }
 };
 
-exports.verifyToken = async (req, res) => {
-    console.log("Login token received", req.body);
-    const { idToken, role } = req.body;
-    try {
-      const decodedToken = await admin.auth().verifyIdToken(idToken);
-      console.log("Decoded token", decodedToken);
-      const uid = decodedToken.user_id;
-      console.log("User ID", uid);
 
-      // Retrieve user data from the database
-      const userDoc = await doc(db, 'users', uid);
-      console.log("User data", userDoc.data());
-      if (!userDoc.exists()) {
+exports.verifyToken = async (req, res) => {
+  console.log("Login token received", req.body);
+  const { idToken, role } = req.body;
+
+  try {
+    const decodedToken = await admin.auth().verifyIdToken(idToken);
+    console.log("Decoded token", decodedToken);
+    console.log("User ID", user_id);
+    console.log("Role", role)
+    try {
+      const userDocRef = db.collection('users').doc(user_id);
+      const userDoc = await userDocRef.get();
+
+      if (!userDoc.exists) {
         console.log("User not found");
         throw new Error('User not found');
       }
 
       const userData = userDoc.data();
       console.log("User data retrieved", userData);
-      // Check if the user's role matches
+
       if (userData.role !== role) {
         console.log("Role mismatch");
         throw new Error('Role mismatch');
       }
 
       res.json({ success: true, user: userData });
+    } catch (dbError) {
+      console.error("Firestore error:", dbError);
+      res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
 
-      } catch (error) {
-      res.status(401).json({ success: false, message: error.message });
-      }
+  } catch (authError) {
+    console.error("Authentication error:", authError);
+    res.status(401).json({ success: false, message: authError.message });
+  }
 };
