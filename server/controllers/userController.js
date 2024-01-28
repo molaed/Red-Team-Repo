@@ -52,8 +52,8 @@ exports.verifyToken = async (req, res) => {
   try {
     const decodedToken = await admin.auth().verifyIdToken(idToken);
     console.log("Decoded token", decodedToken);
-    console.log("User ID", user_id);
-    console.log("Role", role)
+    const user_id = decodedToken.uid;
+    
     try {
       const userDocRef = db.collection('users').doc(user_id);
       const userDoc = await userDocRef.get();
