@@ -47,13 +47,13 @@ exports.loginUser = async (req, res) => {
 
 exports.verifyToken = async (req, res) => {
   console.log("Login token received", req.body);
-  const { idToken, role } = req.body;
+  const { idToken, userRole } = req.body;
 
   try {
     const decodedToken = await admin.auth().verifyIdToken(idToken);
     console.log("Decoded token", decodedToken);
     const user_id = decodedToken.uid;
-    
+
     try {
       const userDocRef = db.collection('users').doc(user_id);
       const userDoc = await userDocRef.get();
@@ -65,8 +65,10 @@ exports.verifyToken = async (req, res) => {
 
       const userData = userDoc.data();
       console.log("User data retrieved", userData);
-
-      if (userData.role !== role) {
+      console.log("User role", userData.role);
+      console.log("User role", userRole);
+      
+      if (userData.role !== userRole) {
         console.log("Role mismatch");
         throw new Error('Role mismatch');
       }
