@@ -14,7 +14,7 @@ export default function App() {
   return (
     <>
       <AuthProvider>
-      <Navbar />
+        <Navbar />
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/about-us' element={<About />} />

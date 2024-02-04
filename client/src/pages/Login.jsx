@@ -20,21 +20,18 @@ import {
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [userRole, setRole] = useState('');
-  const {currentUser, setUserRole} = useAuth();
+  const [selectedRole, setSelectedRole] = useState('');
+  const {currentUser, userRole, setUserRole} = useAuth();
   const navigate = useNavigate();
-
 
   useEffect(() => {
     console.log('currentUser', currentUser);
-    console.log('contextUserRole', setUserRole);
-    if (currentUser && setUserRole) {
-      // Redirect based on the role
-      const redirectPath = setUserRole === 'admin' ? '/admin' : '/';
+    console.log('contextUserRole', userRole);
+    if (currentUser && userRole) {
+      const redirectPath = userRole === 'admin' ? '/admin' : '/';
       navigate(redirectPath);
     }
-  }, [currentUser, setUserRole, navigate]);
-  
+  }, [currentUser, userRole, navigate]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -55,16 +52,16 @@ function LoginPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ idToken, userRole }),
+        body: JSON.stringify({ idToken, selectedRole }),
       });
-      console.log(idToken, userRole);
+      console.log(idToken, selectedRole);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
       if (data.success) {
-        setSecureUserRole(data.user.role);
+        setUserRole;(data.user.role);
         if (data.user.role === 'admin') {
           navigate('/admin');
         } else if (data.user.role === 'student') {
@@ -115,8 +112,8 @@ function LoginPage() {
             </Heading>
             <Select
               placeholder='Log in As'
-              value={userRole}
-              onChange={(e) => setRole(e.target.value)}
+              value={selectedRole}
+              onChange={(e) => setSelectedRole(e.target.value)}
             >
               <option value='admin'>Admin</option>
               <option value='student'>Student</option>

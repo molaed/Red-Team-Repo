@@ -47,7 +47,7 @@ exports.loginUser = async (req, res) => {
 
 exports.verifyToken = async (req, res) => {
   console.log("Login token received", req.body);
-  const { idToken, userRole } = req.body;
+  const { idToken, selectedRole } = req.body;
 
   try {
     const decodedToken = await admin.auth().verifyIdToken(idToken);
@@ -66,9 +66,9 @@ exports.verifyToken = async (req, res) => {
       const userData = userDoc.data();
       console.log("User data retrieved", userData);
       console.log("User role", userData.role);
-      console.log("User role", userRole);
+      console.log("User role", selectedRole);
       
-      if (userData.role !== userRole) {
+      if (userData.role !== selectedRole) {
         console.log("Role mismatch");
         throw new Error('Role mismatch');
       }

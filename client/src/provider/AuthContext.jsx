@@ -1,46 +1,49 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import {auth} from '../firebaseConfig';
-import Cookies from 'js-cookie'; 
+import { auth } from '../firebaseConfig';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState(null);
-  const [userRole, setUserRole] = useState(null);
+  const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('currentUser')) || null);
+  const [userRole, setUserRole] = useState(localStorage.getItem('userRole') || null);
   const [loading, setLoading] = useState(true);
 
-  const setSecureUserRole = (role) => {
-    Cookies.set('userRole', role, { secure: true, sameSite: 'strict' });
-  };
-
-  // Function to get the user's role from the secure cookie
-  const getSecureUserRole = () => {
-    return Cookies.get('userRole');
-  };
-  
   useEffect(() => {
     let isUnsubscribed = false;
 
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (!isUnsubscribed) {
         setCurrentUser(user);
+        if (user) {
+          localStorage.setItem('currentUser', JSON.stringify(user));
+        } else {
+          localStorage.removeItem('currentUser');
+        }
         setLoading(false);
       }
     });
-    const storedUserRole = getSecureUserRole();
-    if (storedUserRole) {
-      setUserRole(storedUserRole);
-    }
 
-    // Cleanup function
     return () => {
       isUnsubscribed = true;
       unsubscribe();
     };
   }, []);
 
+  const setSecureUserRole = (role) => {
+    setUserRole(role);
+    localStorage.setItem('userRole', role);
+  };
+
+  const logout = () => {
+    auth.signOut();
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('userRole');
+    setCurrentUser(null);
+    setUserRole(null);
+  };
+
   return (
-    <AuthContext.Provider value={{ currentUser, userRole, setUserRole: (role) => { setUserRole(role); setSecureUserRole(role); }, loading }}>
+    <AuthContext.Provider value={{ currentUser, userRole, setUserRole: setSecureUserRole, loading, logout }}>
       {!loading && children}
     </AuthContext.Provider>
   );
