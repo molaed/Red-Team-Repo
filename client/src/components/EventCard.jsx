@@ -1,8 +1,12 @@
+import React from 'react';
 import { Box, Image, Heading, Text } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
+
 export default function EventCard({ eventId, eventName, date, location, participants }) {
+  const formattedDate = date ? new Date(date.seconds * 1000).toLocaleDateString("en-US") : 'No Date';
+
   return (
-    <Link to={`/EventDetails`}>
+    <Link to={`/EventDetails/${eventId}`}>
     <Box
       maxW='100%'
       maxH='100%'
@@ -23,13 +27,13 @@ export default function EventCard({ eventId, eventName, date, location, particip
           {eventName}
         </Heading>
         <Text fontSize='sm' color='gray.600'>
-          Date: {date}
+          Date: {formattedDate}
         </Text>
         <Text fontSize='sm' color='gray.600'>
           Location: {location}
         </Text>
         <Text fontSize='sm' color='gray.600'>
-          {participants}
+          Participants: {participants || 'Not available'}
         </Text>
       </Box>
     </Box>

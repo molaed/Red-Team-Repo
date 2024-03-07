@@ -16,8 +16,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { SearchIcon, ChevronDownIcon } from '@chakra-ui/icons';
-import EventCard from '../components/EventCard';
-import { Link } from 'react-router-dom';
+import EventList from '../components/EventList';
 
 export default function Home() {
   return (
@@ -77,55 +76,8 @@ export default function Home() {
         </Heading>
 
         <Grid templateColumns='repeat(3, 1fr)' gap={6} paddingTop={4}>
-          <EventCard eventId="1"
-            eventName='Name of Event'
-            date='Jan 23'
-            location='SFU Burnaby'
-            participants='34/50'
-            className="event-card" 
-          />
-          <EventCard
-            eventName='Name of Event'
-            date='Jan 23'
-            location='SFU Burnaby'
-            participants='34/50'
-          />
-          <EventCard
-            eventName='Name of Event'
-            date='Jan 23'
-            location='SFU Burnaby'
-            participants='34/50'
-          />
-          <EventCard
-            eventName='Name of Event'
-            date='Jan 23'
-            location='SFU Burnaby'
-            participants='34/50'
-          />
-          <EventCard
-            eventName='Name of Event'
-            date='Jan 23'
-            location='SFU Burnaby'
-            participants='34/50'
-          />
-          <EventCard 
-            eventName='Name of Event'
-            date='Jan 23'
-            location='SFU Burnaby'
-            participants='34/50'
-          />
-          <EventCard
-            eventName='Name of Event'
-            date='Jan 23'
-            location='SFU Burnaby'
-            participants='34/50'
-          />
-          <EventCard
-            eventName='Name of Event'
-            date='Jan 23'
-            location='SFU Burnaby'
-            participants='34/50'
-          />
+          <EventList />
+
         </Grid>
         <VStack margin={5}>
           <Text style={{ fontSize: '1.2rem' }}>Showing 4 of 12 events</Text>
@@ -135,3 +87,4 @@ export default function Home() {
     </>
   );
 }
+ 
