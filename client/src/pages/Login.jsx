@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { auth } from '../firebaseConfig';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useAuth } from '../provider/AuthContext';
+import { Link } from 'react-router-dom';
 
 import {
   Box,
@@ -17,63 +18,57 @@ import {
   AbsoluteCenter,
 } from '@chakra-ui/react';
 
+
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [selectedRole, setSelectedRole] = useState('');
-  const {currentUser, userRole, setUserRole} = useAuth();
+  const {currentUser, userRole, setSecureUserRole, loading, logout} = useAuth();
   const navigate = useNavigate();
-
   useEffect(() => {
-    console.log('currentUser', currentUser);
-    console.log('contextUserRole', userRole);
-    if (currentUser && userRole) {
+    if (!loading && currentUser && userRole) {
       const redirectPath = userRole === 'admin' ? '/admin' : '/';
       navigate(redirectPath);
     }
-  }, [currentUser, userRole, navigate]);
-
+  }, [currentUser, userRole, loading, navigate]);
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      console.log('Login successful', userCredential.user);
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        console.log('Login successful', userCredential.user);
 
-      // Send user ID token to your backend for verification and role check
-      const idToken = await userCredential.user.getIdToken();
-      console.log('idToken', idToken);
-
-      const response = await fetch('http://localhost:8080/api/verifyToken', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ idToken, selectedRole }),
-      });
-      console.log(idToken, selectedRole);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        if (!userCredential.user.emailVerified) {
+          await logout(); // Make sure this function properly signs out the user
+          throw new Error('Please verify your email before logging in.');
       }
 
-      const data = await response.json();
-      if (data.success) {
-        setUserRole;(data.user.role);
-        if (data.user.role === 'admin') {
-          navigate('/admin');
-        } else if (data.user.role === 'student') {
-          navigate('/');
+        const idToken = await userCredential.user.getIdToken();
+        const response = await fetch('http://localhost:8080/api/verifyToken', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ idToken }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-      } else {
-        console.error(data.message);
-      }
+
+        const data = await response.json();
+        if (data.success) {
+            setSecureUserRole(data.user.role); // Update role in context
+            const redirectPath = data.user.role === 'admin' ? '/admin' : '/';
+            navigate(redirectPath);
+        } else {
+            console.error(data.message);
+        }
     } catch (error) {
-      console.error('Login request failed:', error);
+        console.error('Login request failed:', error);
     }
-  };
+};
+
+console.log('currentUser:', currentUser);
 
   return (
     <Flex align='center' justify='center' mt={20}>
@@ -107,19 +102,11 @@ function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            <Heading as='h2' size='md' mt={10}>
-              Authorization
+            <Heading as='h3' size='sm' mt={4}>
+              Don't have an account? <Link to="/signup" style={{ color: 'blue' }}>Sign Up Here</Link>
             </Heading>
-            <Select
-              placeholder='Log in As'
-              value={selectedRole}
-              onChange={(e) => setSelectedRole(e.target.value)}
-            >
-              <option value='admin'>Admin</option>
-              <option value='student'>Student</option>
-            </Select>
 
-            <Button colorScheme='red' size='lg' width='full' type='submit'>
+            <Button colorScheme='red' size='lg' width='full' type='submit' mt={4}>
               Log In
             </Button>
           </VStack>

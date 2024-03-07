@@ -11,23 +11,42 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     let isUnsubscribed = false;
 
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      if (!isUnsubscribed) {
-        setCurrentUser(user);
-        if (user) {
-          localStorage.setItem('currentUser', JSON.stringify(user));
-        } else {
-          localStorage.removeItem('currentUser');
+    const unsubscribe = auth.onAuthStateChanged(async user => {
+        if (!isUnsubscribed) {
+            setCurrentUser(user);
+            if (user) {
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                // Fetch the role only if necessary (e.g., not already in local storage or context)
+                if (!localStorage.getItem('userRole')) {
+                    try {
+                        const userRole = await fetchUserRole(user);
+                        setUserRole(userRole); // Set the user's role in your state
+                        localStorage.setItem('userRole', userRole); // Save the role to local storage
+                    } catch (error) {
+                        console.error('Error fetching user role:', error);
+                        // Handle any errors, such as by logging out the user or showing an error message
+                    }
+                } else {
+                    // If the role is already in local storage, use that
+                    setUserRole(localStorage.getItem('userRole'));
+                    localStorage.setItem('userRole', userRole); 
+                }
+            } else {
+                // User is not signed in or session expired
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('userRole');
+                setCurrentUser(null);
+                setUserRole(null);
+            }
+            setLoading(false);
         }
-        setLoading(false);
-      }
     });
 
     return () => {
-      isUnsubscribed = true;
-      unsubscribe();
+        isUnsubscribed = true;
+        unsubscribe();
     };
-  }, []);
+}, []);
 
   const setSecureUserRole = (role) => {
     setUserRole(role);
@@ -43,10 +62,33 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ currentUser, userRole, setUserRole: setSecureUserRole, loading, logout }}>
+    <AuthContext.Provider value={{ currentUser, userRole, setSecureUserRole, loading, logout }}>
       {!loading && children}
     </AuthContext.Provider>
   );
 };
 
 export const useAuth = () => useContext(AuthContext);
+
+
+async function fetchUserRole(user) {
+  const idToken = await user.getIdToken(true); 
+  const response = await fetch('http://localhost:8080/api/verifyToken', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ idToken }),
+  });
+
+  if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const data = await response.json();
+  if (data.success && data.user && data.user.role) {
+      return data.user.role; 
+  } else {
+      throw new Error('Failed to fetch user role');
+  }
+}

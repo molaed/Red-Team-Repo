@@ -33,10 +33,6 @@ exports.loginUser = async (req, res) => {
     const userData = userDoc.data();
     console.log("User data retrieved", userData);
 
-    // Check if the input role matches the role in Firestore
-    if (userData.role !== inputRole) {
-      throw new Error('Role mismatch');
-    }
     // Respond with user data including role
     res.json({ success: true, user: { uid, email, ...userData } });
   } catch (error) {
@@ -47,7 +43,7 @@ exports.loginUser = async (req, res) => {
 
 exports.verifyToken = async (req, res) => {
   console.log("Login token received", req.body);
-  const { idToken, selectedRole } = req.body;
+  const { idToken } = req.body;
 
   try {
     const decodedToken = await admin.auth().verifyIdToken(idToken);
@@ -62,23 +58,15 @@ exports.verifyToken = async (req, res) => {
         console.log("User not found");
         throw new Error('User not found');
       }
-
       const userData = userDoc.data();
       console.log("User data retrieved", userData);
       console.log("User role", userData.role);
-      console.log("User role", selectedRole);
-      
-      if (userData.role !== selectedRole) {
-        console.log("Role mismatch");
-        throw new Error('Role mismatch');
-      }
 
       res.json({ success: true, user: userData });
     } catch (dbError) {
       console.error("Firestore error:", dbError);
       res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
-
   } catch (authError) {
     console.error("Authentication error:", authError);
     res.status(401).json({ success: false, message: authError.message });
