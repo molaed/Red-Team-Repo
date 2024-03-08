@@ -81,7 +81,7 @@ console.log('currentUser:', currentUser);
         <form onSubmit={handleSubmit}>
           <VStack spacing={4} align='flex-start'>
             <Heading as='h1' size='xl' textAlign='center' mb={5}>
-              Log In To SFU Events
+              Log In
             </Heading>
             <Heading as='h2' size='md'>
               Email
