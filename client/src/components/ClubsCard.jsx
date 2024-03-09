@@ -21,8 +21,8 @@ export default function ClubCard ({ club }) {
           <Image
             src={club.logo || 'https://placekitten.com/300/200'}
             alt="Club Logo"
-            width="120px" // Fixed width
-            height="120px" // Fixed height
+            width="150px" // Fixed width
+            height="150px" // Fixed height
             objectFit="cover"
             flexShrink={0} // Prevent the image from shrinking
           />
