@@ -14,6 +14,7 @@ import {
   Text,
   Button,
   VStack,
+  Spacer,
 } from '@chakra-ui/react';
 import { SearchIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import EventList from '../components/EventList';
@@ -28,8 +29,8 @@ export default function Home() {
             fun-filled adventures.
           </h2>
         </Center>
-        <Flex width='100%' gap={8} align="center" justify="center" marginBottom={5}>
-          <Box w={200}>
+        <Flex width='100%' align="center" marginBottom={5} gap={8}>
+          <Box flex="1.5" width="100%">
             <Menu>
               <MenuButton
                 px={4}
@@ -41,6 +42,7 @@ export default function Home() {
                 _hover={{ bg: '#CC0633' }}
                 _expanded={{ bg: 'gray.100' }}
                 _focus={{ boxShadow: 'outline' }}
+                whiteSpace="nowrap"
               >
                 Choose Event Type <ChevronDownIcon />
               </MenuButton>
@@ -53,10 +55,12 @@ export default function Home() {
               </MenuList>
             </Menu>
           </Box>
-          <Box w={1000}>
+         
+          <Box flex="6">
             <Input placeholder='Enter Keyword' borderColor='#CC0633' />
           </Box>
-          <Box w={30}>
+          
+          <Box flex="0.5" align="right">
             <IconButton
               bgColor='#CC0633'
               color='white'

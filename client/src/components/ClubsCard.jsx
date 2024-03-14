@@ -19,7 +19,7 @@ export default function ClubCard ({ club }) {
             }}
         >
           <Image
-            src={club.logo || 'https://placekitten.com/300/200'}
+            src={club.logo || 'https://source.unsplash.com/300x200/?kitten'}
             alt="Club Logo"
             width="150px" // Fixed width
             height="150px" // Fixed height
