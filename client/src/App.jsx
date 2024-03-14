@@ -9,7 +9,8 @@ import Login from './pages/Login.jsx';
 import Signup from './pages/Signup.jsx';
 import Clubs from './pages/Clubs.jsx';
 import Admin from './pages/admin/Admin.jsx';
-import EventDetails from './pages/EventDetails.jsx';
+//import EventDetails from './pages/EventDetails.jsx';
+import EventDetails from './components/EventDetails.jsx';
 
 export default function App() {
   return (
@@ -20,10 +21,10 @@ export default function App() {
           <Route path='/' element={<Home />} />
           <Route path='/about-us' element={<About />} />
           <Route path='/login' element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route path='/signup' element={<Signup />} />
           <Route path='/clubs' element={<Clubs />} />
           <Route path='/admin' element={<Admin />} />
-          <Route path='/eventdetails' element={<EventDetails />} />
+          <Route path='/eventdetails/:eventId' element={<EventDetails />} />
         </Routes>
       </AuthProvider>
     </>

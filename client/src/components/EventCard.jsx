@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 export default function EventCard({ eventId, eventName, date, location, participants }) {
   const formattedDate = date ? new Date(date.seconds * 1000).toLocaleDateString("en-US") : 'No Date';
-
   return (
     <Link to={`/EventDetails/${eventId}`}>
     <Box
@@ -20,7 +19,7 @@ export default function EventCard({ eventId, eventName, date, location, particip
         transition: "all 0.3s ease-in-out"
       }}
     >
-      <Image src='https://placekitten.com/300/200' alt='Card Image' w='full' />
+      <Image src='https://source.unsplash.com/300x200/?kitten' alt='Card Image' w='full' />
 
       <Box p='4' >
         <Heading as='h2' size='md' mb='2'>
