@@ -3,7 +3,7 @@ import { db } from '../firebaseConfig'; // Adjust the path as necessary
 import { collection, getDocs } from 'firebase/firestore';
 import EventCard from './EventCard'; 
 
-function EventList({ searchResults }) {
+function EventList({ searchResults, numEventsToShow }) {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
@@ -21,7 +21,8 @@ function EventList({ searchResults }) {
         });
       });
 
-      console.log("SEARCH: "+ searchResults);
+      console.log("Search result: "+ searchResults);
+      
       // Filter events based on search query
       const filteredEvents = eventList.filter((event) =>
         event.name.toLowerCase().includes(searchResults.toLowerCase())
@@ -34,7 +35,9 @@ function EventList({ searchResults }) {
 
   return (
     <div>
-      {events.map((event) => (
+      {events
+      .slice(0, numEventsToShow)
+      .map((event) => (
         <EventCard
           key={event.id}
           eventId={event.id}

@@ -22,6 +22,7 @@ import React, { useState } from 'react';
 
 export default function Home() {
   const [query, setQuery] = useState('');
+  const [numEventsToShow, setNumEventsToShow] = useState(6); // Initial number of events to show
   const [searchResults, setSearchResults] = useState('');
 
   const handleSearch = async () => {
@@ -30,6 +31,20 @@ export default function Home() {
     } catch (error) {
       console.error('Error searching:', error);
     }
+  };
+
+  const handleLoadMore = () => {
+    const totalEvents = events.length; // Get the total number of events in the list
+    const eventsPerPage = 3; // Number of events to load per page
+  
+    let newNumEventsToShow;
+    if (totalEvents <= 6) {
+      newNumEventsToShow = totalEvents; // Show all events if total events are less than or equal to 6
+    } else {
+      newNumEventsToShow = Math.min(numEventsToShow + eventsPerPage, totalEvents);
+    }
+
+    setNumEventsToShow(newNumEventsToShow); // Load 3 more events or less if reaching the end
   };
 
   return (
@@ -98,12 +113,12 @@ export default function Home() {
         </Heading>
 
         <Grid templateColumns='repeat(3, 1fr)' gap={6} paddingTop={4}>
-          <EventList searchResults={searchResults}/>
+          <EventList searchResults={searchResults} numEventsToShow={numEventsToShow} />
 
         </Grid>
         <VStack margin={5}>
-          <Text style={{ fontSize: '1.2rem' }}>Showing 4 of 12 events</Text>
-          <Button>Show more</Button>
+          <Text style={{ fontSize: '1.2rem' }}>Showing {numEventsToShow} of 12 events</Text>
+          <Button onClick={handleLoadMore} >Show more</Button>
         </VStack>
       </Stack>
     </>
