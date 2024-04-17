@@ -18,8 +18,20 @@ import {
 } from '@chakra-ui/react';
 import { SearchIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import EventList from '../components/EventList';
+import React, { useState } from 'react';
 
 export default function Home() {
+  const [query, setQuery] = useState('');
+  const [searchResults, setSearchResults] = useState('');
+
+  const handleSearch = async () => {
+    try {
+      setSearchResults(query);
+    } catch (error) {
+      console.error('Error searching:', error);
+    }
+  };
+
   return (
     <>
       <Stack paddingLeft={20} paddingRight={20} paddingTop={10} paddingBottom={10}>
@@ -57,11 +69,17 @@ export default function Home() {
           </Box>
          
           <Box flex="6">
-            <Input placeholder='Enter Keyword' borderColor='#CC0633' />
+            <Input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder='Enter Keyword'
+              borderColor='#CC0633'
+            />
           </Box>
           
           <Box flex="0.5" align="right">
             <IconButton
+              onClick={handleSearch}
               bgColor='#CC0633'
               color='white'
               aria-label='Search database'
@@ -80,7 +98,7 @@ export default function Home() {
         </Heading>
 
         <Grid templateColumns='repeat(3, 1fr)' gap={6} paddingTop={4}>
-          <EventList />
+          <EventList searchResults={searchResults}/>
 
         </Grid>
         <VStack margin={5}>
