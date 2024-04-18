@@ -13,6 +13,7 @@ import {
   Text,
   Heading,
   Button,
+  VStack
 } from '@chakra-ui/react';
 import EventCard from '../components/EventCard';
 import EventList from './EventList';
@@ -57,6 +58,7 @@ function EventDetails() {
         <Flex paddingLeft={10} paddingRight={10} gap={10}>
           <Box flex='1'>
             <Image
+              mb={8}
               src={event.coverImage}
               alt='Card Image'
               w='full'
@@ -65,9 +67,33 @@ function EventDetails() {
             <Heading as='h2'>{event.name}</Heading>
           </Box>
           <Box flex='1'>
-            <Text>Date: {event.dateTime}</Text>
-            <Text>Location: {event.location}</Text>
-            <Text>Participants: {event.participants}</Text>
+            <VStack align="start" mb={8}>
+              <Heading as='h3' size='md'>
+                Date
+              </Heading>
+              <Text color="#CC0633" as='b'>{event.dateTime}</Text>
+            </VStack>
+
+            <VStack align="start" mb={8}>
+              <Heading as='h3' size='md'>
+                Location
+              </Heading>
+              <Text color="#CC0633" as='b'>{event.location}</Text>
+            </VStack>
+
+            <VStack align="start" mb={8}>
+              <Heading as='h3' size='md'>
+                Pricing
+              </Heading>
+              <Text color="#CC0633" as='b'>${(event.price / 100).toFixed(2)}</Text>
+            </VStack>
+
+            <VStack align="start" mb={8}>
+              <Heading as='h3' size='md'>
+                Participants
+              </Heading>
+              <Text color="#CC0633" as='b'>{event.participants}</Text>
+            </VStack>
           </Box>
         </Flex>
 
@@ -81,23 +107,7 @@ function EventDetails() {
             <Flex gap={10}>
               <Box flex='1'>
                 <Heading size='md'>Description</Heading>
-                <Text>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt
-                  mollit anim id est laborum. Lorem ipsum dolor sit amet,
-                  consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                  ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                  ea commodo consequat. Duis aute irure dolor in reprehenderit
-                  in voluptate velit esse cillum dolore eu fugiat nulla
-                  pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-                  in culpa qui officia deserunt mollit anim id est laborum.
-                </Text>
+                <Text>{event.description}</Text>
               </Box>
 
               <Box flex='1'>

@@ -24,7 +24,7 @@ const EventCard = ({ eventId, eventName, date, location, participants, coverImag
           position='relative' // Position relative for absolute positioning of Image
         >
           <Image
-            src={coverImage}
+            src={coverImage || 'https://source.unsplash.com/300x200/?kitten'}
             alt='Card Image'
             objectFit="contain" // Fit the entire image within the box
             w='100%'
