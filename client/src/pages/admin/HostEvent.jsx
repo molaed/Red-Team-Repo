@@ -84,7 +84,7 @@ function HostEvent() {
           </FormControl>
           <FormControl isRequired>
             <FormLabel>Date and Time</FormLabel>
-            <Input type="datetime-local" name="dateTime" value={formData.date} onChange={handleChange} />
+            <Input type="datetime-local" name="dateTime" value={formData.dateTime} onChange={handleChange} />
           </FormControl>
           <FormControl isRequired>
             <FormLabel>Price</FormLabel>

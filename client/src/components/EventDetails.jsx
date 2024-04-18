@@ -63,6 +63,9 @@ function EventDetails() {
               alt='Card Image'
               w='full'
               borderRadius='xl'
+              maxHeight='500px'
+              maxWidth='600px'
+              objectFit='scale-down'
             />
             <Heading as='h2'>{event.name}</Heading>
           </Box>
@@ -85,7 +88,7 @@ function EventDetails() {
               <Heading as='h3' size='md'>
                 Pricing
               </Heading>
-              <Text color="#CC0633" as='b'>${(event.price / 100).toFixed(2)}</Text>
+              <Text color="#CC0633" as='b'>${(event.price / 100 * 100).toFixed(2)}</Text>
             </VStack>
 
             <VStack align="start" mb={8}>
