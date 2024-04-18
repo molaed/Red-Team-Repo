@@ -23,15 +23,6 @@ function EventDetails() {
   const [event, setEvent] = useState(null);
   const navigate = useNavigate();
 
-  const eventDateTime = new Date(event.dateTime);
-
-  const formattedDate = `${eventDateTime.getFullYear()}-${eventDateTime.toLocaleString('default', { month: 'long' })}-${eventDateTime.getDate()}`;
-  let hours = eventDateTime.getHours();
-  const ampm = hours >= 12 ? 'PM' : 'AM';
-  hours = hours % 12 || 12; 
-  const minutes = eventDateTime.getMinutes();
-  const formattedTime = `${hours}:${minutes.toString().padStart(2, '0')}${ampm}`;
-
   useEffect(() => {
     const fetchEvent = async () => {
       const docRef = doc(db, 'events', eventId);
@@ -51,6 +42,15 @@ function EventDetails() {
   }, [eventId]);
 
   if (!event) return <Box>Loading...</Box>;
+
+  const eventDateTime = new Date(event.dateTime);
+
+  const formattedDate = `${eventDateTime.getFullYear()}-${eventDateTime.toLocaleString('default', { month: 'long' })}-${eventDateTime.getDate()}`;
+  let hours = eventDateTime.getHours();
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12 || 12; 
+  const minutes = eventDateTime.getMinutes();
+  const formattedTime = `${hours}:${minutes.toString().padStart(2, '0')}${ampm}`;
 
   return (
     // <Box p='5'>
