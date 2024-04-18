@@ -112,10 +112,8 @@ export default function Home() {
           </Text>
         </Heading>
 
-        <Grid templateColumns='repeat(3, 1fr)' gap={6} paddingTop={4}>
-          <EventList searchResults={searchResults} numEventsToShow={numEventsToShow} />
+        <EventList searchResults={searchResults} numEventsToShow={numEventsToShow} />
 
-        </Grid>
         <VStack margin={5}>
           <Text style={{ fontSize: '1.2rem' }}>Showing {numEventsToShow} of 12 events</Text>
           <Button onClick={handleLoadMore} >Show more</Button>

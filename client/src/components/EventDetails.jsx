@@ -65,7 +65,7 @@ function EventDetails() {
             <Heading as='h2'>{event.name}</Heading>
           </Box>
           <Box flex='1'>
-            <Text>Date: {event.date}</Text>
+            <Text>Date: {event.dateTime}</Text>
             <Text>Location: {event.location}</Text>
             <Text>Participants: {event.participants}</Text>
           </Box>
@@ -126,7 +126,7 @@ function EventDetails() {
               <EventCard
                 eventId={eventId}
                 eventName={event.name}
-                date={event.date}
+                date={event.dateTime}
                 location={event.location}
                 participants={event.participants}
               />
@@ -135,7 +135,7 @@ function EventDetails() {
               <EventCard
                 eventId={eventId}
                 eventName={event.name}
-                date={event.date}
+                date={event.dateTime}
                 location={event.location}
                 participants={event.participants}
               />
@@ -144,7 +144,7 @@ function EventDetails() {
               <EventCard
                 eventId={eventId}
                 eventName={event.name}
-                date={event.date}
+                date={event.dateTime}
                 location={event.location}
                 participants={event.participants}
               />

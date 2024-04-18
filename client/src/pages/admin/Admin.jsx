@@ -25,7 +25,7 @@ export default function Admin() {
                 w='100%'
                 mx='auto'
             >
-                <Button as="a" href="/"colorScheme='red' size='lg' mb={10}>Host Event</Button>
+                <Button as="a" href="/admin/hostevent"colorScheme='red' size='lg' mb={10}>Host Event</Button>
                 <Stack spacing={150}>
                     <Box>
                         <Heading as="h3" size="xl" mb={5}>Current Events</Heading>

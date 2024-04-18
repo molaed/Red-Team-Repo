@@ -14,15 +14,16 @@ import {
   Link,
   IconButton,
   useBreakpointValue,
+  Menu, MenuButton, MenuList, MenuItem 
 } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { useAuth } from './provider/AuthContext';
 
 export default function Navbar() {
-  const { currentUser, logout } = useAuth();
+  const {currentUser, userRole, setSecureUserRole, loading, logout} = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const showMenuButton = useBreakpointValue({ base: true, md: false }); // Show menu button on small screens
-  
+  const showMenuButton = useBreakpointValue({ base: true, md: false });
+
   return (
     <Flex
       as="nav"
@@ -101,45 +102,45 @@ export default function Navbar() {
               Clubs List
             </Button>
           </li>
-          <li>
-            <nav>
-              {currentUser ? (
-                <li>
-                  <Button
-                    colorScheme="#800000"
-                    as="a"
-                    href="/profile"
-                    className="navbtn"
-                    fontWeight="600"
-                    _hover={{
-                      bg: 'red.500',
-                      transform: 'scale(1.05)',
-                      transition: 'all 0.3s ease-in-out',
-                    }}
-                  >
-                    {currentUser.name || 'User'} {/* Display user's name or a default string */}
-                  </Button>
-                </li>
-              ) : (
-                <li>
-                  <Button
-                    colorScheme="#800000"
-                    as="a"
-                    href="/login"
-                    className="navbtn"
-                    fontWeight="600"
-                    _hover={{
-                      bg: 'red.500',
-                      transform: 'scale(1.05)',
-                      transition: 'all 0.3s ease-in-out',
-                    }}
-                  >
-                    Log In
-                  </Button>
-                </li>
-              )}
-            </nav>
-          </li>
+          {currentUser ? (
+            <Menu>
+              <MenuButton
+                as={Button}
+                colorScheme="#800000"
+                className="navbtn"
+                fontWeight="600"
+                _hover={{
+                  bg: 'red.500',
+                  transform: 'scale(1.05)',
+                  transition: 'all 0.3s ease-in-out',
+                }}
+              >
+                {currentUser.email || 'Profile'}
+              </MenuButton>
+              <MenuList color={'black'}>
+              <MenuItem as="a" href={userRole === 'admin' ? "/admin" : "/profile"}>
+                {userRole === 'admin' ? "Admin Dashboard" : "Profile"}
+              </MenuItem>
+              <MenuItem onClick={logout}>Log Out</MenuItem>
+              </MenuList>
+            </Menu>
+          ) : (
+            <Button
+              colorScheme="#800000"
+              as="a"
+              href="/login"
+              className="navbtn"
+              fontWeight="600"
+              _hover={{
+                bg: 'red.500',
+                transform: 'scale(1.05)',
+                transition: 'all 0.3s ease-in-out',
+              }}
+            >
+              Log In
+            </Button>
+          )}
+
         </Stack>
       )}
       <Drawer placement="right" onClose={onClose} isOpen={isOpen}>
@@ -157,11 +158,11 @@ export default function Navbar() {
               </Link>
               {currentUser ? (
                 <>
-                  <Link as="a" href="/profile">
-                    {currentUser.name || 'User'}
-                  </Link>
-                  <Button onClick={logout}>Log Out</Button>
-                </>
+                <Link as="a" href={userRole === 'admin' ? "/admin" : "/profile"}>
+                  Profile
+                </Link>
+                <Button onClick={logout}>Log Out</Button>
+              </>
               ) : (
                 <Link as="a" href="/login">
                   Log In
@@ -170,7 +171,7 @@ export default function Navbar() {
             </Stack>
           </DrawerBody>
         </DrawerContent>
-        </Drawer>
+      </Drawer>
     </Flex>
   );
 }

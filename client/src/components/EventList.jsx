@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { db } from '../firebaseConfig'; // Adjust the path as necessary
 import { collection, getDocs } from 'firebase/firestore';
 import EventCard from './EventCard'; 
+import { Grid } from '@chakra-ui/react';
 
 function EventList({ searchResults, numEventsToShow }) {
   const [events, setEvents] = useState([]);
@@ -20,24 +21,16 @@ function EventList({ searchResults, numEventsToShow }) {
           participants: eventData.participants || [] // Default to an empty array if none provided
         });
       });
-
-      console.log("Search result: "+ searchResults);
-      
-      // Filter events based on search query
-      const filteredEvents = eventList.filter((event) =>
-        event.name.toLowerCase().includes(searchResults.toLowerCase())
-      );
-      setEvents(filteredEvents);
+      // Implement search filtering if necessary
+      setEvents(eventList);
     };
 
     fetchEvents();
   }, [searchResults]);
 
   return (
-    <div>
-      {events
-      .slice(0, numEventsToShow)
-      .map((event) => (
+    <Grid templateColumns="repeat(3, 1fr)" gap={6}> 
+      {events.slice(0, numEventsToShow).map((event) => (
         <EventCard
           key={event.id}
           eventId={event.id}
@@ -47,7 +40,7 @@ function EventList({ searchResults, numEventsToShow }) {
           participants={event.participants} 
         />
       ))}
-    </div>
+    </Grid>
   );
 }
 
