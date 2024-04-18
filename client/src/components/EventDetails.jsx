@@ -57,7 +57,7 @@ function EventDetails() {
         <Flex paddingLeft={10} paddingRight={10} gap={10}>
           <Box flex='1'>
             <Image
-              src='https://source.unsplash.com/300x200/?kitten'
+              src={event.coverImage}
               alt='Card Image'
               w='full'
               borderRadius='xl'

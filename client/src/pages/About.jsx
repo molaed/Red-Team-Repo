@@ -6,13 +6,13 @@ export default function About() {
     /* TO-DO: Read text from a file */
     return (
         <Container maxW="500px" mt={8} mb={8}>
-            <VStack spacing='24px' align="start">
-                    <Box boxSize='sm'>
-                        <Center>
-                            <Image src={logo} alt='SFU Kinectus Logo' />
-                        </Center>
-                    </Box>
-                
+            <VStack spacing='24px' align="center">
+                <Box boxSize='sm'>
+                    <Image src={logo} alt='SFU Kinectus Logo' />
+                </Box>
+            </VStack>
+            <VStack spacing='24px' align="start" mt={8}>
+            
                 <Heading as='h1' size='lg'>
                     Mission
                 </Heading>

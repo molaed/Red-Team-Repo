@@ -17,11 +17,20 @@ function EventList({ searchResults, numEventsToShow }) {
           id: doc.id,
           name: eventData.name || 'No Name', // Default name if none provided
           date: eventData.date || 'No Date', // Default date if none provided
+          coverImage: eventData.coverImage || 'https://source.unsplash.com/300x200/?kitten', // Default image if none provided
           location: eventData.location || 'No Location', // Default location if none provided
           participants: eventData.participants || [] // Default to an empty array if none provided
         });
       });
-      // Implement search filtering if necessary
+
+      if (searchResults !== "") {
+        // Filter events based on search query
+        const filteredEvents = eventList.filter((event) =>
+          event.name.toLowerCase().includes(searchResults.toLowerCase())
+        );
+        setEvents(filteredEvents);
+        return;
+      }
       setEvents(eventList);
     };
 
@@ -35,6 +44,7 @@ function EventList({ searchResults, numEventsToShow }) {
           key={event.id}
           eventId={event.id}
           eventName={event.name}
+          coverImage={event.coverImage}
           date={event.date}
           location={event.location}
           participants={event.participants} 
