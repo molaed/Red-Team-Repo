@@ -1,6 +1,6 @@
 // EventDetails.jsx
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { db } from '../firebaseConfig'; // Adjust the import path as necessary
 
 import { doc, getDoc } from 'firebase/firestore';
@@ -21,6 +21,16 @@ import EventList from './EventList';
 function EventDetails() {
   const { eventId } = useParams();
   const [event, setEvent] = useState(null);
+  const navigate = useNavigate();
+
+  const eventDateTime = new Date(event.dateTime);
+
+  const formattedDate = `${eventDateTime.getFullYear()}-${eventDateTime.toLocaleString('default', { month: 'long' })}-${eventDateTime.getDate()}`;
+  let hours = eventDateTime.getHours();
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12 || 12; 
+  const minutes = eventDateTime.getMinutes();
+  const formattedTime = `${hours}:${minutes.toString().padStart(2, '0')}${ampm}`;
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -53,7 +63,7 @@ function EventDetails() {
     <>
       <Stack>
         <Box paddingLeft={10} paddingTop={5} paddingBottom={5}>
-          <Button>Go back</Button>
+          <Button onClick={() => navigate(-1)}>Go back</Button>
         </Box>
         <Flex paddingLeft={10} paddingRight={10} gap={10}>
           <Box flex='1'>
@@ -74,7 +84,7 @@ function EventDetails() {
               <Heading as='h3' size='md'>
                 Date
               </Heading>
-              <Text color="#CC0633" as='b'>{event.dateTime}</Text>
+                <Text color="#CC0633" as='b'>{formattedDate} {formattedTime}</Text>
             </VStack>
 
             <VStack align="start" mb={8}>
