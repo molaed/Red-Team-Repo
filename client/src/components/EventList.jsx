@@ -4,7 +4,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import EventCard from './EventCard'; 
 import { Grid } from '@chakra-ui/react';
 
-function EventList({ searchResults, numEventsToShow }) {
+function EventList({ searchResults, numEventsToShow, onEventsLoaded }) {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
@@ -32,10 +32,11 @@ function EventList({ searchResults, numEventsToShow }) {
         return;
       }
       setEvents(eventList);
+      onEventsLoaded(eventList);
     };
 
     fetchEvents();
-  }, [searchResults]);
+  }, [searchResults, onEventsLoaded]);
 
   return (
     <Grid templateColumns="repeat(3, 1fr)" gap={6}> 

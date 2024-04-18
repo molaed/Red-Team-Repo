@@ -22,30 +22,30 @@ import React, { useState } from 'react';
 
 export default function Home() {
   const [query, setQuery] = useState('');
+  const [eventsList, setEventsList] = useState([]);
   const [numEventsToShow, setNumEventsToShow] = useState(6); // Initial number of events to show
   const [searchResults, setSearchResults] = useState('');
 
   const handleSearch = async () => {
-    try {
-      setSearchResults(query);
-    } catch (error) {
-      console.error('Error searching:', error);
-    }
+    setSearchResults(query);
   };
 
   const handleLoadMore = () => {
-    const totalEvents = events.length; // Get the total number of events in the list
-    const eventsPerPage = 3; // Number of events to load per page
-  
-    let newNumEventsToShow;
-    if (totalEvents <= 6) {
-      newNumEventsToShow = totalEvents; // Show all events if total events are less than or equal to 6
+    const totalEvents = eventsList.length;
+    const prevNumEvents = numEventsToShow;
+    const step = 3;
+    
+    const isShowMoreCapped = prevNumEvents + step >= totalEvents;
+    if (isShowMoreCapped) {
+      setNumEventsToShow(totalEvents);
     } else {
-      newNumEventsToShow = Math.min(numEventsToShow + eventsPerPage, totalEvents);
+      setNumEventsToShow((prevNumEvents) => prevNumEvents + step); // Increase the number of events to show by 3
     }
-
-    setNumEventsToShow(newNumEventsToShow); // Load 3 more events or less if reaching the end
   };
+
+  const handleEventsLoaded = (events) => {
+    setEventsList(events);
+  }
 
   return (
     <>
@@ -112,7 +112,11 @@ export default function Home() {
           </Text>
         </Heading>
 
-        <EventList searchResults={searchResults} numEventsToShow={numEventsToShow} />
+        <EventList
+          searchResults={searchResults}
+          numEventsToShow={numEventsToShow}
+          onEventsLoaded={handleEventsLoaded}
+        />
 
         <VStack margin={5}>
           <Text style={{ fontSize: '1.2rem' }}>Showing {numEventsToShow} of 12 events</Text>
@@ -122,4 +126,3 @@ export default function Home() {
     </>
   );
 }
- 
