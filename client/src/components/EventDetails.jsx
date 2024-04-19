@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { db } from '../firebaseConfig'; // Adjust the import path as necessary
 
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, getDocs, collection } from 'firebase/firestore';
 import {
   Image,
   Box,
@@ -13,7 +13,7 @@ import {
   Text,
   Heading,
   Button,
-  VStack
+  VStack,
 } from '@chakra-ui/react';
 import EventCard from '../components/EventCard';
 import EventList from './EventList';
@@ -21,6 +21,7 @@ import EventList from './EventList';
 function EventDetails() {
   const { eventId } = useParams();
   const [event, setEvent] = useState(null);
+  const [otherEvents, setOtherEvents] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,28 +39,49 @@ function EventDetails() {
       }
     };
 
+    const fetchOtherEvents = async () => {
+      const otherEventList = [];
+      const querySnapshot = await getDocs(collection(db, 'events'));
+      querySnapshot.forEach((doc) => {
+        if (doc.id !== eventId) {
+          const eventData = doc.data();
+          otherEventList.push({
+            id: doc.id,
+            name: eventData.name || 'No Name', // Default name if none provided
+            date: eventData.date || 'No Date', // Default date if none provided
+            coverImage:
+              eventData.coverImage ||
+              'https://source.unsplash.com/300x200/?kitten', // Default image if none provided
+            location: eventData.location || 'No Location', // Default location if none provided
+            participants: eventData.participants || [], // Default to an empty array if none provided
+          });
+        }
+      });
+      const filteredOtherEvents = otherEventList.slice(0, 3);
+      setOtherEvents(filteredOtherEvents);
+    };
+
     fetchEvent();
+    fetchOtherEvents();
   }, [eventId]);
 
   if (!event) return <Box>Loading...</Box>;
 
   const eventDateTime = new Date(event.dateTime);
 
-  const formattedDate = `${eventDateTime.getFullYear()}-${eventDateTime.toLocaleString('default', { month: 'long' })}-${eventDateTime.getDate()}`;
+  const formattedDate = `${eventDateTime.getFullYear()}-${eventDateTime.toLocaleString(
+    'default',
+    { month: 'long' }
+  )}-${eventDateTime.getDate()}`;
   let hours = eventDateTime.getHours();
   const ampm = hours >= 12 ? 'PM' : 'AM';
-  hours = hours % 12 || 12; 
+  hours = hours % 12 || 12;
   const minutes = eventDateTime.getMinutes();
-  const formattedTime = `${hours}:${minutes.toString().padStart(2, '0')}${ampm}`;
+  const formattedTime = `${hours}:${minutes
+    .toString()
+    .padStart(2, '0')}${ampm}`;
 
   return (
-    // <Box p='5'>
-    //   <Heading as='h2'>{event.name}</Heading>
-    //   <Text>Date: {event.date}</Text>
-    //   <Text>Location: {event.location}</Text>
-    //   <Text>Participants: {event.participants}</Text>
-    //   {/* Add more details as needed */}
-    // </Box>
     <>
       <Stack>
         <Box paddingLeft={10} paddingTop={5} paddingBottom={5}>
@@ -80,32 +102,40 @@ function EventDetails() {
             <Heading as='h2'>{event.name}</Heading>
           </Box>
           <Box flex='1'>
-            <VStack align="start" mb={8}>
+            <VStack align='start' mb={8}>
               <Heading as='h3' size='md'>
                 Date
               </Heading>
-                <Text color="#CC0633" as='b'>{formattedDate} {formattedTime}</Text>
+              <Text color='#CC0633' as='b'>
+                {formattedDate} {formattedTime}
+              </Text>
             </VStack>
 
-            <VStack align="start" mb={8}>
+            <VStack align='start' mb={8}>
               <Heading as='h3' size='md'>
                 Location
               </Heading>
-              <Text color="#CC0633" as='b'>{event.location}</Text>
+              <Text color='#CC0633' as='b'>
+                {event.location}
+              </Text>
             </VStack>
 
-            <VStack align="start" mb={8}>
+            <VStack align='start' mb={8}>
               <Heading as='h3' size='md'>
                 Pricing
               </Heading>
-              <Text color="#CC0633" as='b'>${(event.price / 100 * 100).toFixed(2)}</Text>
+              <Text color='#CC0633' as='b'>
+                ${((event.price / 100) * 100).toFixed(2)}
+              </Text>
             </VStack>
 
-            <VStack align="start" mb={8}>
+            <VStack align='start' mb={8}>
               <Heading as='h3' size='md'>
                 Participants
               </Heading>
-              <Text color="#CC0633" as='b'>{event.participants}</Text>
+              <Text color='#CC0633' as='b'>
+                {event.participants}
+              </Text>
             </VStack>
           </Box>
         </Flex>
@@ -145,33 +175,20 @@ function EventDetails() {
             paddingTop={4}
             height='100%'
           >
-            <Box bg='white' borderRadius='lg'>
-              <EventCard
-                eventId={eventId}
-                eventName={event.name}
-                date={event.dateTime}
-                location={event.location}
-                participants={event.participants}
-              />
-            </Box>
-            <Box bg='white' borderRadius='lg'>
-              <EventCard
-                eventId={eventId}
-                eventName={event.name}
-                date={event.dateTime}
-                location={event.location}
-                participants={event.participants}
-              />
-            </Box>
-            <Box bg='white' borderRadius='lg'>
-              <EventCard
-                eventId={eventId}
-                eventName={event.name}
-                date={event.dateTime}
-                location={event.location}
-                participants={event.participants}
-              />
-            </Box>
+            {otherEvents.map((event, eventId) => {
+              return (
+                <Box key={eventId} bg='white' borderRadius='lg'>
+                  <EventCard
+                    eventId={eventId}
+                    eventName={event.name}
+                    date={event.dateTime}
+                    location={event.location}
+                    participants={event.participants}
+                    coverImage={event.coverImage}
+                  />
+                </Box>
+              );
+            })}
           </Grid>
         </Stack>
       </Stack>
