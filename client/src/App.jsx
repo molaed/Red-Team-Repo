@@ -27,7 +27,7 @@ export default function App() {
           <Route path='/clubs' element={<Clubs />} />
           <Route path='/admin' element={<Admin />} />
           <Route path='/admin/hostevent' element={<HostEvent />} />
-          <Route path='/profile/:currentUser.uid' element={<Profile />} />
+          <Route path='/profile/' element={<Profile />} />
           <Route path='/eventdetails/:eventId' element={<EventDetails />} />
         </Routes>
       </AuthProvider>
