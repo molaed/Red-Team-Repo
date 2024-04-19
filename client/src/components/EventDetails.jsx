@@ -179,7 +179,7 @@ function EventDetails() {
               return (
                 <Box key={eventId} bg='white' borderRadius='lg'>
                   <EventCard
-                    eventId={eventId}
+                    eventId={event.id}
                     eventName={event.name}
                     date={event.dateTime}
                     location={event.location}
