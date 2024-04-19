@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { db } from '../firebaseConfig'; // Adjust the path as necessary
+import { db } from '../firebaseConfig';
 import { collection, getDocs } from 'firebase/firestore';
 import EventCard from './EventCard'; 
 import { Grid } from '@chakra-ui/react';
 
-function EventList({ searchResults, numEventsToShow, onEventsLoaded }) {
+function EventList() {
   const [events, setEvents] = useState([]);
 
+  // Fetch all events once when the component mounts
   useEffect(() => {
     const fetchEvents = async () => {
       const eventList = [];
-      const query = query(collection(db, 'events'), limit(10)); 
-      const querySnapshot = await getDocs(query);
+      const querySnapshot = await getDocs(collection(db, 'events'));
       querySnapshot.forEach((doc) => {
         const eventData = doc.data();
         eventList.push({
@@ -25,17 +25,14 @@ function EventList({ searchResults, numEventsToShow, onEventsLoaded }) {
       });
 
       setEvents(eventList);
-      if (onEventsLoaded) {
-        onEventsLoaded(eventList);
-      }
     };
 
     fetchEvents();
-  }, [onEventsLoaded]);
+  }, []); 
 
   return (
     <Grid templateColumns="repeat(3, 1fr)" gap={6}> 
-      {events.slice(0, numEventsToShow).map((event) => (
+      {events.map((event) => (
         <EventCard
           key={event.id}
           eventId={event.id}
@@ -43,7 +40,7 @@ function EventList({ searchResults, numEventsToShow, onEventsLoaded }) {
           coverImage={event.coverImage}
           date={event.date}
           location={event.location}
-          participants={event.participants} 
+          participants={event.participants}
         />
       ))}
     </Grid>
